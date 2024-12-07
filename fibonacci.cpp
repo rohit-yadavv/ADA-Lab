@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-int fibbo(int n, std::vector<int>& memo) {
+int fibbo(int n, vector<int>& memo) {
   if (n == 0) return 0;
   if (n == 1) return 1;
 
