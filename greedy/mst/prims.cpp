@@ -3,7 +3,7 @@ using namespace std;
 
 class MinSpanningTree {
  public:
-  static int SumOfWeightsOfMinimumSpanningTree(int V, vector<vector<pair<int, int>>>& adj) {
+  int SumOfWeightsOfMinimumSpanningTree(int V, vector<vector<pair<int, int>>>& adj) {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     // Min-heap (priority queue) to get the edge with the minimum weight
 
@@ -18,18 +18,15 @@ class MinSpanningTree {
       int node = it.second;
       int wt = it.first;
 
-      if (visited[node] == 1) continue;
+      if (!visited[node]) {
+        visited[node] = 1;
+        sum += wt;
 
-      visited[node] = 1;
-      sum += wt;
-
-      // Traverse all adjacent nodes
-      for (const auto& neighbor : adj[node]) {
-        int adjNode = neighbor.first;
-        int weight = neighbor.second;
-
-        if (!visited[adjNode]) {
-          pq.push({weight, adjNode});
+        // Traverse all adjacent nodes
+        for (auto neighbor : adj[node]) {
+          if (!visited[neighbor.first]) {
+            pq.push({neighbor.second, neighbor.first});
+          }
         }
       }
     }
@@ -54,7 +51,8 @@ int main() {
   adj[4].push_back({2, 2});
   adj[4].push_back({3, 1});
 
-  int sum = MinSpanningTree::SumOfWeightsOfMinimumSpanningTree(V, adj);
+  MinSpanningTree mst;
+  int sum = mst.SumOfWeightsOfMinimumSpanningTree(V, adj);
   cout << "The sum of all the edge weights in the MST: " << sum << endl;
 
   return 0;

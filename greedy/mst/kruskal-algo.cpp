@@ -64,14 +64,14 @@ vector<Edge> kruskalMST(int n, vector<Edge>& edges) {
   // int minCost=0;
 
   for (const Edge& edge : edges) {
-    int u = edge.u;
-    int v = edge.v;
+    int node1 = edge.u;
+    int node2 = edge.v;
 
     // Check if the current edge forms a cycle
-    if (ds.find(u) != ds.find(v)) {
+    if (ds.find(node1) != ds.find(node2)) {
       mst.push_back(edge);
       // minCost += edge.weight
-      ds.unite(u, v);
+      ds.unite(node1, node2);
     }
   }
 

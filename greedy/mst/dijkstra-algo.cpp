@@ -28,9 +28,9 @@ class Graph {
       int node = pq.top().second;
       pq.pop();
 
-      if (d > dist[node]) continue;
+      if (d < dist[node]) continue;
 
-      for (auto& edge : adj[node]) {
+      for (auto edge : adj[node]) {
         int adjNode = edge.first;
         int weight = edge.second;
 
