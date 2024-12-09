@@ -26,14 +26,6 @@ class Heap {
     }
   }
 
-  void buildMaxHeap() {
-    int n = heap.size();
-    // Start from the last non-leaf node and heapify
-    for (int i = n / 2 - 1; i >= 0; i--) {
-      heapify(n, i);
-    }
-  }
-
  public:
   Heap(const vector<int>& input) {
     this->heap = input;
@@ -42,15 +34,16 @@ class Heap {
   void heapSort() {
     int n = heap.size();
 
-    // Step 1: Build a max heap
-    buildMaxHeap();
+    // Build heap (rearrange vector)
+    for (int i = n / 2 - 1; i >= 0; i--)
+      heapify(n, i);
 
-    // Step 2: Extract elements one by one
+    // One by one extract an element from heap
     for (int i = n - 1; i > 0; i--) {
       // Move current root to end
       swap(heap[0], heap[i]);
 
-      // Call heapify on the reduced heap
+      // Call max heapify on the reduced heap
       heapify(i, 0);
     }
   }
