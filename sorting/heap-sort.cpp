@@ -15,6 +15,7 @@ class Heap {
     if (left < n && heap[left] > heap[largest])
       largest = left;
 
+    // If right child is larger than the current largest
     if (right < n && heap[right] > heap[largest])
       largest = right;
 
@@ -22,6 +23,14 @@ class Heap {
     if (largest != i) {
       swap(heap[i], heap[largest]);
       heapify(n, largest);
+    }
+  }
+
+  void buildMaxHeap() {
+    int n = heap.size();
+    // Start from the last non-leaf node and heapify
+    for (int i = n / 2 - 1; i >= 0; i--) {
+      heapify(n, i);
     }
   }
 
@@ -33,15 +42,16 @@ class Heap {
   void heapSort() {
     int n = heap.size();
 
-    // Build max heap
-    for (int i = n / 2 - 1; i >= 0; i--) {
-      heapify(n, i);
-    }
+    // Step 1: Build a max heap
+    buildMaxHeap();
 
-    // Extract elements from the heap one by one
+    // Step 2: Extract elements one by one
     for (int i = n - 1; i > 0; i--) {
-      swap(heap[0], heap[i]);  // Move current root to the end
-      heapify(i, 0);           // Call heapify on the reduced heap
+      // Move current root to end
+      swap(heap[0], heap[i]);
+
+      // Call heapify on the reduced heap
+      heapify(i, 0);
     }
   }
 
