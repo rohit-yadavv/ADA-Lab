@@ -1,50 +1,70 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-void heapify(int arr[], int n, int i) {
-  int largest = i;
-  int left = 2 * i;
-  int right = 2 * i + 1;
+class Heap {
+ private:
+  vector<int> heap;
 
-  if (left < n && arr[left] > arr[largest])
-    largest = left;
+  void heapify(int n, int i) {
+    int largest = i;        // Initialize largest as root
+    int left = 2 * i + 1;   // Left child
+    int right = 2 * i + 2;  // Right child
 
-  if (right < n && arr[right] > arr[largest])
-    largest = right;
+    // If left child is larger than root
+    if (left < n && heap[left] > heap[largest])
+      largest = left;
 
-  if (largest != i) {
-    swap(arr[i], arr[largest]);
-    heapify(arr, n, largest);
+    if (right < n && heap[right] > heap[largest])
+      largest = right;
+
+    // If largest is not root
+    if (largest != i) {
+      swap(heap[i], heap[largest]);
+      heapify(n, largest);
+    }
   }
-}
 
-void heapSort(int arr[], int n) {
-  int size = n;
-  while (size > 1) {
-    swap(arr[size], arr[1]);
-    size--;
-    heapify(arr, size, 1);
+ public:
+  Heap(const vector<int>& input) {
+    this->heap = input;
   }
-}
 
-void printArray(int arr[], int n) {
-  for (int i = 0; i < n; i++)
-    cout << arr[i] << " ";
-  cout << endl;
-}
+  void heapSort() {
+    int n = heap.size();
+
+    // Build max heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+      heapify(n, i);
+    }
+
+    // Extract elements from the heap one by one
+    for (int i = n - 1; i > 0; i--) {
+      swap(heap[0], heap[i]);  // Move current root to the end
+      heapify(i, 0);           // Call heapify on the reduced heap
+    }
+  }
+
+  void printHeap() const {
+    for (int val : heap) {
+      cout << val << " ";
+    }
+    cout << endl;
+  }
+};
 
 // Driver code
 int main() {
-  int arr[] = {12, 11, 13, 5, 6, 7};
-  int n = sizeof(arr) / sizeof(arr[0]);
+  vector<int> input = {12, 11, 13, 5, 6, 7};
+  Heap h(input);
 
   cout << "Original array: ";
-  printArray(arr, n);
+  h.printHeap();
 
-  heapSort(arr, n);
+  h.heapSort();
 
   cout << "Sorted array: ";
-  printArray(arr, n);
+  h.printHeap();
 
   return 0;
 }
